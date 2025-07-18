@@ -1,0 +1,24 @@
+services:
+  reverse-proxy:
+    image: nginx:latest
+    ports:
+      - "8080:80"
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+    depends_on:
+      - frontend
+      - legacy
+
+  frontend:
+    image: nginx:alpine
+    ports:
+      - "8081:80"
+    volumes:
+      - ./frontend:/usr/share/nginx/html:ro
+
+  legacy:
+    image: nginx:alpine
+    ports:
+      - "8082:80"
+    volumes:
+      - ./legacy:/usr/share/nginx/html:ro
