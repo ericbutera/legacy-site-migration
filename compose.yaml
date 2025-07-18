@@ -10,14 +10,19 @@ services:
       - legacy
 
   frontend:
-    image: nginx:alpine
-    ports:
-      - "8081:80"
+    build:
+      context: ./frontend
     volumes:
-      - ./frontend:/usr/share/nginx/html:ro
+      - ./frontend:/app
+      - /app/node_modules
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
 
   legacy:
-    image: nginx:alpine
+    build:
+      context: ./legacy
     ports:
       - "8082:80"
     volumes:
